@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "864519324184",
+    "project_id": "nanoproject-fae77",
+    "storage_bucket": "nanoproject-fae77.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:864519324184:android:affdf39d98d891798b396d",
+        "android_client_info": {
+          "package_name": "com.nanodegree.fcm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "864519324184-rfr0c7q71hgr9vbmcrniullvg9uutukq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nanodegree.fcm",
+            "certificate_hash": "c2e805c297014a065685dfa5362e7d01c0bfd524"
+          }
+        },
+        {
+          "client_id": "864519324184-d8tl4ji4jnrtnlvub7gn3e56obv220b7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDTs9eAtdocaqepZzZ9awgFMlySs2XTypc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "864519324184-d8tl4ji4jnrtnlvub7gn3e56obv220b7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
