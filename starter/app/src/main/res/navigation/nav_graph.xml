@@ -31,5 +31,25 @@
         android:id="@+id/selectLocationFragment"
         android:name="com.udacity.project4.locationreminders.savereminder.selectreminderlocation.SelectLocationFragment"
         android:label="Select Location" />
+    <fragment
+        android:id="@+id/FirstFragment"
+        android:name="com.udacity.project4.maps.FirstFragment"
+        android:layout="@layout/fragment_first"
+        android:label="@string/first_fragment_label">
+
+        <action
+            android:id="@+id/action_FirstFragment_to_SecondFragment"
+            app:destination="@id/SecondFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/SecondFragment"
+        android:name="com.udacity.project4.maps.SecondFragment"
+        android:layout="@layout/fragment_second"
+        android:label="@string/second_fragment_label">
+
+        <action
+            android:id="@+id/action_SecondFragment_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+    </fragment>
 
 </navigation>
