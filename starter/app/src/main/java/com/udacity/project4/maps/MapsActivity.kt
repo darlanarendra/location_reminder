@@ -1,6 +1,7 @@
 package com.udacity.project4.maps
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
+import android.app.NotificationManager
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -21,6 +22,8 @@ import com.google.android.gms.maps.model.GroundOverlayOptions
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.udacity.project4.R
+import com.udacity.project4.treasurehunt.createChannel
+import com.udacity.project4.treasurehunt.sendGeofenceEnteredNotification
 import java.util.*
 import java.util.jar.Manifest
 
@@ -36,6 +39,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
         mapFragment.getMapAsync(this)
+        createChannel(this)
+        val notificationManager = ContextCompat.getSystemService(this,NotificationManager::class.java) as NotificationManager
+        notificationManager.sendGeofenceEnteredNotification(this)
     }
 
     /**
