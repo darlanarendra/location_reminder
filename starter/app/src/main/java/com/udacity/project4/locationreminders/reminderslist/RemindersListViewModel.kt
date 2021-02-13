@@ -1,12 +1,14 @@
 package com.udacity.project4.locationreminders.reminderslist
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.udacity.project4.base.BaseViewModel
 import com.udacity.project4.locationreminders.data.ReminderDataSource
 import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.data.dto.Result
+import com.udacity.project4.treasurehunt.TAG
 import kotlinx.coroutines.launch
 
 class RemindersListViewModel(
@@ -14,6 +16,7 @@ class RemindersListViewModel(
     private val dataSource: ReminderDataSource
 ) : BaseViewModel(app) {
     // list that holds the reminder data to be displayed on the UI
+    val TAG = RemindersListViewModel::class.java.simpleName
     val remindersList = MutableLiveData<List<ReminderDataItem>>()
 
     /**
@@ -25,10 +28,12 @@ class RemindersListViewModel(
         viewModelScope.launch {
             //interacting with the dataSource has to be through a coroutine
             val result = dataSource.getReminders()
+
             showLoading.postValue(false)
             when (result) {
                 is Result.Success<*> -> {
                     val dataList = ArrayList<ReminderDataItem>()
+                    Log.v(TAG,"RemindersListViewModel"+result.data as List<ReminderDTO>)
                     dataList.addAll((result.data as List<ReminderDTO>).map { reminder ->
                         //map the reminder data from the DB to the be ready to be displayed on the UI
                         ReminderDataItem(
