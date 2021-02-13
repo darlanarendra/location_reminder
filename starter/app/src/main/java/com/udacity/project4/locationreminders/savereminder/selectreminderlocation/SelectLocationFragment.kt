@@ -26,6 +26,7 @@ import com.udacity.project4.base.BaseFragment
 import com.udacity.project4.base.NavigationCommand
 import com.udacity.project4.databinding.FragmentSelectLocationBinding
 import com.udacity.project4.locationreminders.savereminder.SaveReminderViewModel
+import com.udacity.project4.treasurehunt.TAG
 import com.udacity.project4.utils.setDisplayHomeAsUpEnabled
 import org.koin.android.ext.android.inject
 
@@ -47,6 +48,7 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
 
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
+        setupGoogleMap()
 
 //        TODO: add the map setup implementation
 //        TODO: zoom to the user location after taking his permission
@@ -58,6 +60,12 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
         onLocationSelected()
 
         return binding.root
+    }
+
+    private fun setupGoogleMap() {
+        val mapFragment = childFragmentManager.findFragmentByTag("map_fragment") as SupportMapFragment?:return
+        mapFragment.getMapAsync(this)
+
     }
 
     private fun onLocationSelected() {
@@ -74,15 +82,19 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
         // TODO: Change the map type based on the user's selection.
         R.id.normal_map -> {
+            this.map.mapType = GoogleMap.MAP_TYPE_NORMAL
             true
         }
         R.id.hybrid_map -> {
+            this.map.mapType = GoogleMap.MAP_TYPE_HYBRID
             true
         }
         R.id.satellite_map -> {
+            this.map.mapType = GoogleMap.MAP_TYPE_SATELLITE
             true
         }
         R.id.terrain_map -> {
+            this.map.mapType = GoogleMap.MAP_TYPE_TERRAIN
             true
         }
         else -> super.onOptionsItemSelected(item)
@@ -90,8 +102,20 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
        this.map = map
-
+       this.map.setMapStyle(
+           MapStyleOptions.loadRawResourceStyle(requireContext(),R.raw.map_style)
+       )
+       setCamera(LatLng(37.8199328,-122.4804438))
+        this.map.setOnMapClickListener {
+            Log.v(TAG,"setOnMapClickListener"+it.latitude+":"+it.longitude)
+            setCamera(it)
+        }
     }
 
+    fun setCamera(location:LatLng){
+        val cameraPosition = CameraPosition.fromLatLngZoom(location, 15.5f)
+        val cameraUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
+        map.animateCamera(cameraUpdate)
+    }
 
 }
