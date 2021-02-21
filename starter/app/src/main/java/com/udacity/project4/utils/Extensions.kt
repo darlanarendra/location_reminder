@@ -3,8 +3,10 @@ package com.udacity.project4.utils
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.Context
+import android.content.res.Resources
 import android.net.ConnectivityManager
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -66,3 +68,11 @@ fun View.fadeOut() {
         }
     })
 }
+
+inline val Number.dp get() = toUnit(TypedValue.COMPLEX_UNIT_DIP)
+
+fun Number.toUnit(complexUnitDip: Int): Float {
+    return TypedValue.applyDimension(complexUnitDip,toFloat(), Resources.getSystem().displayMetrics)
+}
+
+inline val Number.sp get() = toUnit(TypedValue.COMPLEX_UNIT_SP)

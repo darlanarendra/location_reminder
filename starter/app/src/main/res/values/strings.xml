@@ -51,4 +51,5 @@
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="geo_fence_not_available">Geo Fence Not Available</string>
     <string name="geo_unknown_error">Unknown Error</string>
+    <string name="radius_must_be_specified">Radius must be specified</string>
 </resources>

@@ -5,12 +5,17 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import com.firebase.ui.auth.AuthMethodPickerLayout
+import com.firebase.ui.auth.AuthUI
+import com.firebase.ui.auth.viewmodel.RequestCodes
+import com.google.android.gms.auth.api.credentials.CredentialPickerConfig.Prompt.SIGN_IN
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
 import com.udacity.project4.R
 import com.udacity.project4.locationreminders.RemindersActivity
 import kotlinx.android.synthetic.main.activity_authentication.*
@@ -22,47 +27,60 @@ import kotlinx.android.synthetic.main.activity_authentication.*
  */
 class AuthenticationActivity : AppCompatActivity() {
 
-    var mGoogleSignInClient :GoogleSignInClient?= null
+
     val RC_SIGN_IN = 9001
     val TAG = AuthenticationActivity::class.java.simpleName
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_authentication)
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this,gso)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        val account = GoogleSignIn.getLastSignedInAccount(this)
-        updateUI(account)
-    }
-
-    private fun updateUI(account: GoogleSignInAccount?) {
-        if(account != null){
-           startActivity(Intent(this, RemindersActivity::class.java))
-        }else{
-            login_btn.visibility = View.VISIBLE
-            app_title.visibility = View.VISIBLE
-            progress_bar.visibility = View.GONE
+        val firebaseAuth = FirebaseAuth.getInstance()
+        if(firebaseAuth.currentUser != null){
+            navigateToRemindersActivity()
+            return
         }
+        setContentView(R.layout.activity_authentication)
     }
+
+
 
     fun singIn(view: View) {
-        val intent = mGoogleSignInClient?.signInIntent
-        startActivityForResult(intent, RC_SIGN_IN)
+        onLoginButtonClicked()
+    }
+
+    private fun onLoginButtonClicked() {
+        startActivityForResult(AuthUI.getInstance()
+            .createSignInIntentBuilder().setAvailableProviders(
+                listOf(
+                    AuthUI.IdpConfig.GoogleBuilder().build(),
+                    AuthUI.IdpConfig.EmailBuilder().build(),
+                    AuthUI.IdpConfig.AppleBuilder().build()
+                )).setAuthMethodPickerLayout(
+                AuthMethodPickerLayout.Builder(R.layout.layout_auth_picker)
+                    .setGoogleButtonId(R.id.gmail)
+                    .setEmailButtonId(R.id.email).
+                    setAppleButtonId(R.id.apple).build()
+                ).build(),RC_SIGN_IN
+
+            )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode == RC_SIGN_IN){
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
+        if(requestCode != RC_SIGN_IN){
+           return
+        }
+        if(resultCode == RESULT_OK){
+            navigateToRemindersActivity()
+            return
         }
     }
 
-    private fun handleSignInResult(task: Task<GoogleSignInAccount>?) {
-        updateUI(task?.getResult(ApiException::class.java))
+    private fun navigateToRemindersActivity() {
+        startActivity(Intent(this,RemindersActivity::class.java))
+        finish()
     }
+//
+//    private fun handleSignInResult(task: Task<GoogleSignInAccount>?) {
+//        updateUI(task?.getResult(ApiException::class.java))
+//    }
 }

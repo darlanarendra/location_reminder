@@ -1,6 +1,7 @@
 package com.udacity.project4.locationreminders.reminderslist
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.databinding.DataBindingUtil
 import com.udacity.project4.R
@@ -13,7 +14,7 @@ import com.udacity.project4.utils.setup
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class ReminderListFragment : BaseFragment() {
-    //use Koin to retrieve the ViewModel instance
+    val TAG = ReminderListFragment::class.java.simpleName
     override val _viewModel: RemindersListViewModel by viewModel()
     private lateinit var binding: FragmentRemindersBinding
     override fun onCreateView(
@@ -71,11 +72,16 @@ class ReminderListFragment : BaseFragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.logout -> {
-//                TODO: add the logout implementation
+
+                signOut()
             }
         }
         return super.onOptionsItemSelected(item)
 
+    }
+
+    private fun signOut() {
+        Log.v(TAG,"User Logged Out ")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

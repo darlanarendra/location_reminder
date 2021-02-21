@@ -37,6 +37,9 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Note that only one observer is going to be notified of changes.
  */
 class SingleLiveEvent<T> : MutableLiveData<T>() {
+    companion object {
+        private val TAG = "SingleLiveEvent"
+    }
 
     private val mPending = AtomicBoolean(false)
 
@@ -48,11 +51,11 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         }
 
         // Observe the internal MutableLiveData
-        super.observe(owner, Observer { t ->
+        super.observe(owner) { t ->
             if (mPending.compareAndSet(true, false)) {
                 observer.onChanged(t)
             }
-        })
+        }
     }
 
     @MainThread
@@ -69,8 +72,5 @@ class SingleLiveEvent<T> : MutableLiveData<T>() {
         value = null
     }
 
-    companion object {
 
-        private val TAG = "SingleLiveEvent"
-    }
 }

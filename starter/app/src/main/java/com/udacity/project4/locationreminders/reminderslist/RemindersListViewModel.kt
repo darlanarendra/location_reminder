@@ -42,6 +42,7 @@ class RemindersListViewModel(
                             reminder.location,
                             reminder.latitude,
                             reminder.longitude,
+                            5f,
                             reminder.id
                         )
                     })
