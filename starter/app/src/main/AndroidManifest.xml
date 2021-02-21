@@ -34,9 +34,7 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-        <activity android:name=".maps.MapsActivity">
-
-        </activity>
+        <activity android:name=".maps.MapsActivity"/>
         <activity android:name=".locationreminders.ReminderDescriptionActivity" />
         <activity android:name=".authentication.AuthenticationActivity" >
             <intent-filter>
@@ -45,8 +43,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".locationreminders.RemindersActivity">
-        </activity>
+        <activity android:name=".locationreminders.RemindersActivity"/>
 
         <receiver
             android:name=".locationreminders.geofence.GeofenceBroadcastReceiver"
