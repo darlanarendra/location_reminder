@@ -53,4 +53,7 @@
     <string name="geo_unknown_error">Unknown Error</string>
     <string name="radius_must_be_specified">Radius must be specified</string>
     <string name="logout_failed">Failed to logout</string>
+    <string name="email">Email</string>
+    <string name="gmail">Gmail</string>
+    <string name="choose_authentication_method">Choose Authentication method</string>
 </resources>

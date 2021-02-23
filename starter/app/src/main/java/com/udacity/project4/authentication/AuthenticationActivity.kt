@@ -39,33 +39,32 @@ class AuthenticationActivity : AppCompatActivity() {
             return
         }
         setContentView(R.layout.activity_authentication)
+        findViewById<View>(R.id.login_btn).setOnClickListener { onLoginButtonClicked() }
     }
 
-
-
-    fun singIn(view: View) {
-        onLoginButtonClicked()
-    }
 
     private fun onLoginButtonClicked() {
-        startActivityForResult(AuthUI.getInstance()
-            .createSignInIntentBuilder().setAvailableProviders(
+        startActivityForResult(
+            AuthUI.getInstance()
+            .createSignInIntentBuilder()
+                .setAvailableProviders(
                 listOf(
-                    AuthUI.IdpConfig.GoogleBuilder().build(),
                     AuthUI.IdpConfig.EmailBuilder().build(),
-                    AuthUI.IdpConfig.AppleBuilder().build()
+                    AuthUI.IdpConfig.GoogleBuilder().build()
                 )).setAuthMethodPickerLayout(
                 AuthMethodPickerLayout.Builder(R.layout.layout_auth_picker)
+                    .setEmailButtonId(R.id.email)
                     .setGoogleButtonId(R.id.gmail)
-                    .setEmailButtonId(R.id.email).
-                    setAppleButtonId(R.id.apple).build()
-                ).build(),RC_SIGN_IN
+                    .build()
+                )
+                .setTheme(R.style.AppTheme).build(),RC_SIGN_IN
 
             )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        Log.v(TAG, "onActivityResult")
         if(requestCode != RC_SIGN_IN){
            return
         }
@@ -79,8 +78,4 @@ class AuthenticationActivity : AppCompatActivity() {
         startActivity(Intent(this,RemindersActivity::class.java))
         finish()
     }
-//
-//    private fun handleSignInResult(task: Task<GoogleSignInAccount>?) {
-//        updateUI(task?.getResult(ApiException::class.java))
-//    }
 }
