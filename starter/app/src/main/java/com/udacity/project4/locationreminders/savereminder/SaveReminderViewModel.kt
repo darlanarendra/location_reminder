@@ -95,16 +95,11 @@ class SaveReminderViewModel(val app: Application, val dataSource: ReminderDataSo
             return false
         }
 
-//        if(reminderData.latitude == null || reminderData.longitude == null){
-//            showSnackBarInt.value = R.string.radius_must_be_specified
-//            return false
-//        }
-        if (reminderData.location.isNullOrEmpty()) {
-            showSnackBarInt.value = R.string.err_select_location
+        if(reminderData.radius == null){
+            showSnackBarInt.value = R.string.radius_must_be_specified
             return false
         }
-
-        if(reminderData.longitude == null || reminderData.latitude == null){
+        if (reminderData.latitude == null || reminderData.longitude == null) {
             showSnackBarInt.value = R.string.err_select_location
             return false
         }
