@@ -66,8 +66,11 @@ android {
         exclude 'META-INF/NOTICE.txt'
         exclude 'META-INF/notice.txt'
         exclude 'META-INF/ASL2.0'
+        exclude("META-INF/*.kotlin_module")
         exclude 'META-INF/atomicfu.kotlin_module'
         exclude 'META-INF/MANIFEST.MF'
+        exclude 'META-INF/AL2.0'
+        exclude 'META-INF/LGPL2.1'
     }
 }
 
