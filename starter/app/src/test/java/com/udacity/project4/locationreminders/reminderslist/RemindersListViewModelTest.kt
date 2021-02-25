@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.common.truth.Truth.assertThat
 import com.udacity.project4.locationreminders.data.FakeDataSource
+import com.udacity.project4.locationreminders.data.dto.ReminderDTO
 import com.udacity.project4.locationreminders.util.MainCoroutineRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -47,6 +48,28 @@ class RemindersListViewModelTest {
         viewModel.loadReminders()
         assertThat(viewModel.remindersList.value?.isEmpty()).isTrue()
         assertThat(viewModel.showNoData.value).isTrue()
+    }
+
+    @Test
+    fun withReminders_resultNotEmpty()= runBlockingTest {
+        fakeDataSource.saveReminder(ReminderDTO("title", "description","location", 1.2, 1.1,400f))
+        viewModel.loadReminders()
+        assertThat(viewModel.remindersList.value?.isEmpty()).isFalse()
+        assertThat(viewModel.showLoading.value).isFalse()
+        assertThat(viewModel.showNoData.value).isFalse()
+    }
+
+    @Test
+    fun noData_ShowLoading() = runBlockingTest {
+        mainCoroutineRule.pauseDispatcher()
+        viewModel.loadReminders()
+        assertThat(viewModel.showLoading.value).isTrue()
+    }
+
+    @Test
+    fun noData_hidesLoading() = runBlockingTest {
+        viewModel.loadReminders()
+        assertThat(viewModel.showLoading.value).isFalse()
     }
 
 }
