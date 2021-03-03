@@ -51,12 +51,6 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
         setHasOptionsMenu(true)
         setDisplayHomeAsUpEnabled(true)
         setupGoogleMap()
-//        TODO: zoom to the user location after taking his permission
-//        TODO: add style to the map
-//        TODO: put a marker to location that the user selected
-
-
-//        TODO: call this function after the user confirms on the selected location
         selectLocationViewModel.selectedLocation.observe(viewLifecycleOwner, Observer {
             Log.v(TAG, "SelectLocationFragment"+it.latLng.longitude+":"+it.latLng.latitude)
             selectedLocationMarker.position = it.latLng
@@ -77,9 +71,6 @@ class SelectLocationFragment : BaseFragment(),OnMapReadyCallback {
     }
 
     private fun onLocationSelected() {
-        //        TODO: When the user confirms on the selected location,
-        //         send back the selected location details to the view model
-        //         and navigate back to the previous fragment to save the reminder and add the geofence
         selectLocationViewModel.closedRadiusSelector()
         _viewModel.setselectedLocation(selectLocationViewModel.selectedLocation.value)
         _viewModel.setSelectedRadius(selectLocationViewModel.radius.value!!)
